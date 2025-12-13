@@ -1,0 +1,25 @@
+/* src/App.css */
+body {
+    background-color: #121212;  /* Dark background color */
+    color: #ffffff;  /* White text color */
+  }
+  
+  .card {
+    background-color: #333333;  /* Dark card background */
+    border: 1px solid #444444;  /* Slight border for cards */
+  }
+  
+  .card-title, .card-text {
+    color: #ffffff;  /* Ensure card text is white */
+  }
+  
+  .btn-primary {
+    background-color: #6200ea;  /* Custom dark primary button */
+    border-color: #6200ea;
+  }
+  
+  .btn-primary:hover {
+    background-color: #3700b3;  /* Darker hover effect */
+    border-color: #3700b3;
+  }
+  
