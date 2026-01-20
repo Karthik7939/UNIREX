@@ -13,16 +13,18 @@ from model_loader import get_bundle
 # sentence_transformers.model_card. We don't need the actual library at
 # runtime; the bundled 'model' is not used in this file.
 pkg_name = 'sentence_transformers'
-submodule_name = 'sentence_transformers.model_card'
+model_card_name = 'sentence_transformers.model_card'
+sentence_transformer_module_name = 'sentence_transformers.SentenceTransformer'
 
 if pkg_name not in sys.modules:
     pkg_module = types.ModuleType(pkg_name)
     sys.modules[pkg_name] = pkg_module
 else:
-    pkg_module = sys.modules[pkg_name]
+    pkg_module = sys_modules[pkg_name]
 
-if submodule_name not in sys.modules:
-    model_card_module = types.ModuleType(submodule_name)
+# Stub for sentence_transformers.model_card
+if model_card_name not in sys.modules:
+    model_card_module = types.ModuleType(model_card_name)
 
     class ModelCard:  # type: ignore
         pass
@@ -37,9 +39,24 @@ if submodule_name not in sys.modules:
     model_card_module.SentenceTransformerModelCardData = SentenceTransformerModelCardData  # type: ignore[attr-defined]
     model_card_module.generate_model_card = generate_model_card  # type: ignore[attr-defined]
 
-    # Expose as attribute on the parent package as well
     setattr(pkg_module, 'model_card', model_card_module)
-    sys.modules[submodule_name] = model_card_module
+    sys.modules[model_card_name] = model_card_module
+
+# Stub for sentence_transformers.SentenceTransformer
+if sentence_transformer_module_name not in sys.modules:
+    st_module = types.ModuleType(sentence_transformer_module_name)
+
+    class SentenceTransformer:  # type: ignore
+        def __init__(self, *args, **kwargs) -> None:
+            pass
+
+        def encode(self, *args, **kwargs):  # type: ignore
+            return []
+
+    st_module.SentenceTransformer = SentenceTransformer  # type: ignore[attr-defined]
+
+    setattr(pkg_module, 'SentenceTransformer', SentenceTransformer)
+    sys.modules[sentence_transformer_module_name] = st_module
 
 # Work around legacy BERT attention class referenced in the pickled model
 bert_module_name = 'transformers.models.bert.modeling_bert'
