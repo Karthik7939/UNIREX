@@ -73,9 +73,11 @@ if torch_version_module_name not in sys.modules:
     torch_version_module = types.ModuleType(torch_version_module_name)
 
     class TorchVersion:  # type: ignore
-        major = 0
-        minor = 0
-        micro = 0
+        def __init__(self, *args, **kwargs) -> None:
+            # Accept any arguments to satisfy pickle, but ignore them.
+            self.major = 0
+            self.minor = 0
+            self.micro = 0
 
     torch_version_module.TorchVersion = TorchVersion  # type: ignore[attr-defined]
 
