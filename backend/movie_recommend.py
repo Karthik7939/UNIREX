@@ -9,21 +9,37 @@ import types
 
 from model_loader import get_bundle
 
-# Work around old pickled objects that reference sentence_transformers.model_card
-st_model_card_module = 'sentence_transformers.model_card'
-if st_model_card_module not in sys.modules:
-    stub_module = types.ModuleType(st_model_card_module)
-    # Define stub classes so unpickling can succeed; the bundled 'model'
-    # is not used elsewhere in this file.
+# Work around old pickled objects that reference sentence_transformers and
+# sentence_transformers.model_card. We don't need the actual library at
+# runtime; the bundled 'model' is not used in this file.
+pkg_name = 'sentence_transformers'
+submodule_name = 'sentence_transformers.model_card'
+
+if pkg_name not in sys.modules:
+    pkg_module = types.ModuleType(pkg_name)
+    sys.modules[pkg_name] = pkg_module
+else:
+    pkg_module = sys.modules[pkg_name]
+
+if submodule_name not in sys.modules:
+    model_card_module = types.ModuleType(submodule_name)
+
     class ModelCard:  # type: ignore
         pass
 
     class SentenceTransformerModelCardData:  # type: ignore
         pass
 
-    stub_module.ModelCard = ModelCard  # type: ignore[attr-defined]
-    stub_module.SentenceTransformerModelCardData = SentenceTransformerModelCardData  # type: ignore[attr-defined]
-    sys.modules[st_model_card_module] = stub_module
+    def generate_model_card(*args, **kwargs):  # type: ignore
+        return None
+
+    model_card_module.ModelCard = ModelCard  # type: ignore[attr-defined]
+    model_card_module.SentenceTransformerModelCardData = SentenceTransformerModelCardData  # type: ignore[attr-defined]
+    model_card_module.generate_model_card = generate_model_card  # type: ignore[attr-defined]
+
+    # Expose as attribute on the parent package as well
+    setattr(pkg_module, 'model_card', model_card_module)
+    sys.modules[submodule_name] = model_card_module
 
 # Work around legacy BERT attention class referenced in the pickled model
 bert_module_name = 'transformers.models.bert.modeling_bert'
