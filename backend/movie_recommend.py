@@ -59,9 +59,29 @@ if sentence_transformer_module_name not in sys.modules:
     sys.modules[sentence_transformer_module_name] = st_module
 
 # Minimal stub for torch to satisfy pickled SentenceTransformer dependencies
-if 'torch' not in sys.modules:
-    torch_stub = types.ModuleType('torch')
-    sys.modules['torch'] = torch_stub
+torch_pkg_name = 'torch'
+torch_version_module_name = 'torch.torch_version'
+
+if torch_pkg_name not in sys.modules:
+    torch_pkg = types.ModuleType(torch_pkg_name)
+    sys.modules[torch_pkg_name] = torch_pkg
+else:
+    torch_pkg = sys.modules[torch_pkg_name]
+
+# Stub for torch.torch_version
+if torch_version_module_name not in sys.modules:
+    torch_version_module = types.ModuleType(torch_version_module_name)
+
+    class TorchVersion:  # type: ignore
+        major = 0
+        minor = 0
+        micro = 0
+
+    torch_version_module.TorchVersion = TorchVersion  # type: ignore[attr-defined]
+
+    # Expose as attribute on torch package
+    setattr(torch_pkg, 'torch_version', torch_version_module)
+    sys.modules[torch_version_module_name] = torch_version_module
 
 # Work around legacy BERT attention class referenced in the pickled model
 bert_module_name = 'transformers.models.bert.modeling_bert'
