@@ -172,17 +172,7 @@ function Mangarecommender() {
       {loadingTop ? (
         <p className="text-center">Loading top manga...</p>
       ) : (
-        <div
-          style={{
-            width: '100vw',
-            position: 'relative',
-            left: '50%',
-            right: '50%',
-            marginLeft: '-50vw',
-            marginRight: '-50vw',
-            padding: '0 1rem',
-          }}
-        >
+        <div className="full-bleed-row">
           <div
             className="scroll-container auto-scroll d-flex flex-row"
             style={{
@@ -215,42 +205,59 @@ function Mangarecommender() {
             e.preventDefault();
             handleSearch();
           }}
-          style={{ display: 'inline-flex', gap: '0.5rem', alignItems: 'center' }}
         >
-          <label htmlFor="mangaInput" style={{ whiteSpace: 'nowrap' }}>
-            Enter a manga you read recently:
-          </label>
-          <input
-            type="text"
-            id="mangaInput"
-            className="ip-box"
-            placeholder="Eg: One Piece"
-            value={inputTitle}
-            onChange={(e) => {
-              setSuppressMangaSuggestions(false);
-              setInputTitle(e.target.value);
-            }}
-            style={{ flexGrow: 1, minWidth: '250px' }}
-          />
-          {mangaSuggestions.length > 0 && (
-            <ul className="movie-suggestions-list">
-              {mangaSuggestions.map((title) => (
-                <li
-                  key={title}
-                  className="movie-suggestion-item"
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    setSuppressMangaSuggestions(true);
-                    setInputTitle(title);
-                    setMangaSuggestions([]);
+          <div className="d-inline-flex align-items-center gap-2 movie-input-row">
+            <label htmlFor="mangaInput" style={{ whiteSpace: 'nowrap' }}>
+              Enter a manga you read recently:
+            </label>
+            <div id="poda" className="movie-futuristic-input">
+              <div className="glow" />
+              <div className="darkBorderBg" />
+              <div className="darkBorderBg" />
+              <div className="darkBorderBg" />
+
+              <div className="white" />
+              <div className="border" />
+
+              <div id="main">
+                <input
+                  type="text"
+                  id="mangaInput"
+                  name="text"
+                  className="input movie-futuristic-input-field"
+                  placeholder="Eg: One Piece"
+                  value={inputTitle}
+                  onChange={(e) => {
+                    setSuppressMangaSuggestions(false);
+                    setInputTitle(e.target.value);
                   }}
-                >
-                  {title}
-                </li>
-              ))}
-            </ul>
-          )}
-          <button type="submit" className="btn primary-search-btn">
+                />
+                <div id="input-mask" />
+                <div id="pink-mask" />
+              </div>
+            </div>
+
+            {mangaSuggestions.length > 0 && (
+              <ul className="movie-suggestions-list">
+                {mangaSuggestions.map((title) => (
+                  <li
+                    key={title}
+                    className="movie-suggestion-item"
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      setSuppressMangaSuggestions(true);
+                      setInputTitle(title);
+                      setMangaSuggestions([]);
+                    }}
+                  >
+                    {title}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <button type="submit" className="btn primary-search-btn mt-3">
             Search
           </button>
         </form>
@@ -263,17 +270,7 @@ function Mangarecommender() {
       {recommendations.length > 0 && (
         <>
           <h4 className="mb-3 text-center" ref={recommendationsRef}>Manga Recommendations:</h4>
-          <div
-            style={{
-              width: '100vw',
-              position: 'relative',
-              left: '50%',
-              right: '50%',
-              marginLeft: '-50vw',
-              marginRight: '-50vw',
-              padding: '0 1rem',
-            }}
-          >
+          <div className="full-bleed-row">
             <div
               className="scroll-container d-flex flex-row"
               style={{

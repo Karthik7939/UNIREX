@@ -110,7 +110,7 @@ function WebSeriesPage() {
   };
 
   return (
-    <div className="App bg-dark text-white min-vh-100">
+    <div className="App bg-dark text-white min-vh-100 page-transition">
       <Container fluid className="px-4 py-4">
         <div className="app-hero mb-4">
           <div className="app-hero-content">
@@ -179,39 +179,58 @@ Smart recommendations to match your mood across movies, web series, anime, and m
               handleWebseriesSearch();
             }}
           >
-            <label htmlFor="webseriesInput" className="me-2">
-              Enter a web series you watched recently:
-            </label>
-            <input
-              type="text"
-              id="webseriesInput"
-              className="ip-box"
-              placeholder="Eg: Dark"
-              value={inputTitle}
-              onChange={(e) => {
-                setSuppressSeriesSuggestions(false);
-                setInputTitle(e.target.value);
-              }}
-            />
-            {seriesSuggestions.length > 0 && (
-              <ul className="movie-suggestions-list">
-                {seriesSuggestions.map((title) => (
-                  <li
-                    key={title}
-                    className="movie-suggestion-item"
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      setSuppressSeriesSuggestions(true);
-                      setInputTitle(title);
-                      setSeriesSuggestions([]);
+            <div className="d-inline-flex align-items-center gap-2 movie-input-row">
+              <label htmlFor="webseriesInput" className="me-2">
+                Enter a web series you watched recently:
+              </label>
+              <div id="poda" className="movie-futuristic-input">
+                <div className="glow" />
+                <div className="darkBorderBg" />
+                <div className="darkBorderBg" />
+                <div className="darkBorderBg" />
+
+                <div className="white" />
+                <div className="border" />
+
+                <div id="main">
+                  <input
+                    type="text"
+                    id="webseriesInput"
+                    name="text"
+                    className="input movie-futuristic-input-field"
+                    placeholder="Eg: Dark"
+                    value={inputTitle}
+                    onChange={(e) => {
+                      setSuppressSeriesSuggestions(false);
+                      setInputTitle(e.target.value);
                     }}
-                  >
-                    {title}
-                  </li>
-                ))}
-              </ul>
-            )}
-            <button type="submit" className="btn primary-search-btn ms-2">
+                  />
+                  <div id="input-mask" />
+                  <div id="pink-mask" />
+                </div>
+              </div>
+
+              {seriesSuggestions.length > 0 && (
+                <ul className="movie-suggestions-list">
+                  {seriesSuggestions.map((title) => (
+                    <li
+                      key={title}
+                      className="movie-suggestion-item"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        setSuppressSeriesSuggestions(true);
+                        setInputTitle(title);
+                        setSeriesSuggestions([]);
+                      }}
+                    >
+                      {title}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            <button type="submit" className="btn primary-search-btn mt-3">
               Search
             </button>
           </form>

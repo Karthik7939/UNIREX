@@ -114,17 +114,7 @@ function AnimeRecommend() {
       {loadingTop ? (
         <p className="text-center">Loading top anime...</p>
       ) : (
-        <div
-          style={{
-            width: '100vw',
-            position: 'relative',
-            left: '50%',
-            right: '50%',
-            marginLeft: '-50vw',
-            marginRight: '-50vw',
-            padding: '0 1rem',
-          }}
-        >
+        <div className="full-bleed-row">
           <div
             className="scroll-container auto-scroll d-flex flex-row"
             style={{
@@ -154,42 +144,59 @@ function AnimeRecommend() {
         <form
           onSubmit={handleSearch}
           className="input-space position-relative d-inline-block movie-input-wrapper"
-          style={{ display: 'inline-flex', gap: '0.5rem', alignItems: 'center' }}
         >
-          <label htmlFor="animeInput" style={{ whiteSpace: 'nowrap' }}>
-            Enter an anime you watched recently:
-          </label>
-          <input
-            type="text"
-            id="animeInput"
-            className="ip-box"
-            placeholder="Eg: Naruto"
-            value={searchTerm}
-            onChange={(e) => {
-              setSuppressAnimeSuggestions(false);
-              setSearchTerm(e.target.value);
-            }}
-            style={{ flexGrow: 1, minWidth: '250px' }}
-          />
-          {animeSuggestions.length > 0 && (
-            <ul className="movie-suggestions-list">
-              {animeSuggestions.map((title) => (
-                <li
-                  key={title}
-                  className="movie-suggestion-item"
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    setSuppressAnimeSuggestions(true);
-                    setSearchTerm(title);
-                    setAnimeSuggestions([]);
+          <div className="d-inline-flex align-items-center gap-2 movie-input-row">
+            <label htmlFor="animeInput" style={{ whiteSpace: 'nowrap' }}>
+              Enter an anime you watched recently:
+            </label>
+            <div id="poda" className="movie-futuristic-input">
+              <div className="glow" />
+              <div className="darkBorderBg" />
+              <div className="darkBorderBg" />
+              <div className="darkBorderBg" />
+
+              <div className="white" />
+              <div className="border" />
+
+              <div id="main">
+                <input
+                  type="text"
+                  id="animeInput"
+                  name="text"
+                  className="input movie-futuristic-input-field"
+                  placeholder="Eg: Naruto"
+                  value={searchTerm}
+                  onChange={(e) => {
+                    setSuppressAnimeSuggestions(false);
+                    setSearchTerm(e.target.value);
                   }}
-                >
-                  {title}
-                </li>
-              ))}
-            </ul>
-          )}
-          <button type="submit" className="btn primary-search-btn">
+                />
+                <div id="input-mask" />
+                <div id="pink-mask" />
+              </div>
+            </div>
+
+            {animeSuggestions.length > 0 && (
+              <ul className="movie-suggestions-list">
+                {animeSuggestions.map((title) => (
+                  <li
+                    key={title}
+                    className="movie-suggestion-item"
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      setSuppressAnimeSuggestions(true);
+                      setSearchTerm(title);
+                      setAnimeSuggestions([]);
+                    }}
+                  >
+                    {title}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <button type="submit" className="btn primary-search-btn mt-3">
             Search
           </button>
         </form>
@@ -200,17 +207,7 @@ function AnimeRecommend() {
       {animeList.length > 0 && (
         <>
           <h4 className="mb-3 text-center" ref={resultsRef}>Anime Search Results:</h4>
-          <div
-            style={{
-              width: '100vw',
-              position: 'relative',
-              left: '50%',
-              right: '50%',
-              marginLeft: '-50vw',
-              marginRight: '-50vw',
-              padding: '0 1rem',
-            }}
-          >
+          <div className="full-bleed-row">
             <div
               className="scroll-container d-flex flex-row"
               style={{

@@ -65,7 +65,7 @@ function HomePage() {
 
               <div className="home-meta-row">
                 <span className="home-meta-dot" />
-                <span className="home-meta-text">Real-time data from TMDB and curated similarity scores.</span>
+                {/* <span className="home-meta-text">Real-time data from TMDB and curated similarity scores.</span> */}
               </div>
             </div>
 
