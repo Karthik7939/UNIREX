@@ -3,9 +3,10 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Load bundled manga data
-with open('manga_recommender_bundle.pkl', 'rb') as f:
-    bundle = pickle.load(f)
+from model_loader import get_bundle
+
+# Load bundled manga data via shared loader (downloads from GitHub Releases if needed)
+bundle = get_bundle("manga")
 
 model = bundle['model']
 tfidf = bundle['tfidf']

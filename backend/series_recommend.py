@@ -5,10 +5,10 @@ import re
 from sklearn.metrics.pairwise import cosine_similarity
 import os
 
-# Load bundled data
-bundle_path = os.path.join(os.path.dirname(__file__), 'tv_series_recommender_bundle.pkl')
-with open(bundle_path, 'rb') as f:
-    bundle = pickle.load(f)
+from model_loader import get_bundle
+
+# Load bundled data via shared loader (downloads from GitHub Releases if needed)
+bundle = get_bundle("tv")
 
 # Unpack components
 model = bundle['model']

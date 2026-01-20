@@ -4,9 +4,10 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import re
 
-# Load anime bundle
-with open('anime_recommender_bundle.pkl', 'rb') as f:
-    bundle = pickle.load(f)
+from model_loader import get_bundle
+
+# Load anime bundle via shared loader (downloads from GitHub Releases if needed)
+bundle = get_bundle("anime")
 
 model = bundle['model']
 tfidf = bundle['tfidf']

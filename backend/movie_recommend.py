@@ -7,6 +7,8 @@ import re
 import sys
 import types
 
+from model_loader import get_bundle
+
 # Work around old pickled objects that reference sentence_transformers.model_card
 st_model_card_module = 'sentence_transformers.model_card'
 if st_model_card_module not in sys.modules:
@@ -37,10 +39,8 @@ except Exception:
     # unpickling will fail with a clear error.
     pass
 
-# Load the bundled data
-bundle_path = os.path.join(os.path.dirname(__file__), 'movie_recommender_bundle2.pkl')
-with open(bundle_path, 'rb') as f:
-    bundle = pickle.load(f)
+# Load the bundled data via shared loader (downloads from GitHub Releases if needed)
+bundle = get_bundle("movie")
 
 # Unpack components
 model = bundle['model']
