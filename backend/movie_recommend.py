@@ -15,12 +15,15 @@ from model_loader import get_bundle
 pkg_name = 'sentence_transformers'
 model_card_name = 'sentence_transformers.model_card'
 sentence_transformer_module_name = 'sentence_transformers.SentenceTransformer'
+sentence_transformer_models_module_name = 'sentence_transformers.models'
 
 if pkg_name not in sys.modules:
     pkg_module = types.ModuleType(pkg_name)
+    # Mark as a package so submodules under it are considered valid
+    pkg_module.__path__ = []  # type: ignore[attr-defined]
     sys.modules[pkg_name] = pkg_module
 else:
-    pkg_module = sys_modules[pkg_name]
+    pkg_module = sys.modules[pkg_name]
 
 # Stub for sentence_transformers.model_card
 if model_card_name not in sys.modules:
@@ -57,6 +60,12 @@ if sentence_transformer_module_name not in sys.modules:
 
     setattr(pkg_module, 'SentenceTransformer', SentenceTransformer)
     sys.modules[sentence_transformer_module_name] = st_module
+
+# Stub for sentence_transformers.models (not actually used at runtime here)
+if sentence_transformer_models_module_name not in sys.modules:
+    models_module = types.ModuleType(sentence_transformer_models_module_name)
+    setattr(pkg_module, 'models', models_module)
+    sys.modules[sentence_transformer_models_module_name] = models_module
 
 # Minimal stub for torch to satisfy pickled SentenceTransformer dependencies
 torch_pkg_name = 'torch'
