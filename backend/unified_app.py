@@ -4,7 +4,7 @@ from flask_cors import CORS
 from movie_recommend import recommend_movies_advanced
 #from manga_recommend import recommend_manga_advanced
 #from animeapp import recommend_anime_advanced
-from seriesapp import recommend_tv_series
+#from seriesapp import recommend_tv_series
 
 app = Flask(__name__)
 CORS(app)
