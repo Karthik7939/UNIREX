@@ -1,29 +1,49 @@
 from flask import Flask, jsonify
 from flask_cors import CORS 
-import pickle
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import re
+from model_loader import get_bundle
 
 
 app = Flask(__name__)
 CORS(app)
 
-# Load bundled components
-with open('tv_series_recommender_bundle.pkl', 'rb') as f:
-    bundle = pickle.load(f)
+# Module-level caches (filled lazily on first use)
+tfidf = None
+scaler = None
+tv = None
+tfidf_matrix = None
+normalized_ratings = None
+normalized_popularity = None
+tag_similarities = None
 
-# Lightweight bundle does not include the original model object
-tfidf = bundle['tfidf']
-scaler = bundle['scaler']
-tv = bundle['tv']
-tfidf_matrix = bundle['tfidf_matrix']
-normalized_ratings = bundle['normalized_ratings']
-normalized_popularity = bundle['normalized_popularity']
 
-# Precompute cosine similarity on TF-IDF matrix
-tag_similarities = cosine_similarity(tfidf_matrix)
+def _ensure_series_bundle_loaded():
+    """Lazy-load the TV series bundle and derived matrices into module-level globals."""
+    global tfidf, scaler, tv, tfidf_matrix, normalized_ratings, normalized_popularity, tag_similarities
+
+    if tfidf is not None:
+        return
+
+    bundle = get_bundle("tv")
+
+    # Lightweight bundle does not include the original model object
+    tfidf = bundle['tfidf']
+    scaler = bundle['scaler']
+    tv = bundle['tv']
+    tfidf_matrix = bundle['tfidf_matrix']
+    normalized_ratings = bundle['normalized_ratings']
+    normalized_popularity = bundle['normalized_popularity']
+
+    # Precompute cosine similarity on TF-IDF matrix
+    from sklearn.metrics.pairwise import cosine_similarity as _cos_sim
+    globals()['tag_similarities'] = _cos_sim(tfidf_matrix)
+
+
+# Ensure the bundle is loaded before first use
+_ensure_series_bundle_loaded()
 
 # Clean tags
 def clean_text(text):
