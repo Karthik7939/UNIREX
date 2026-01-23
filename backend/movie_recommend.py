@@ -26,8 +26,7 @@ except Exception:
 # Load the bundled data via shared loader (downloads from GitHub Releases if needed)
 bundle = get_bundle("movie")
 
-# Unpack components
-model = bundle['model']
+# Unpack components (lightweight bundle does not include the original model object)
 tfidf = bundle['tfidf']
 scaler = bundle['scaler']
 movies = bundle['movies']

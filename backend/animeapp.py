@@ -12,7 +12,7 @@ CORS(app)
 with open('anime_recommender_bundle.pkl', 'rb') as f:
     bundle = pickle.load(f)
 
-model = bundle['model']
+# Lightweight bundle does not include the original model object
 tfidf = bundle['tfidf']
 scaler = bundle['scaler']
 anime = bundle['anime']

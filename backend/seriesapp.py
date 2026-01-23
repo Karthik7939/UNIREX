@@ -14,7 +14,7 @@ CORS(app)
 with open('tv_series_recommender_bundle.pkl', 'rb') as f:
     bundle = pickle.load(f)
 
-model = bundle['model']
+# Lightweight bundle does not include the original model object
 tfidf = bundle['tfidf']
 scaler = bundle['scaler']
 tv = bundle['tv']

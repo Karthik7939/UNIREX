@@ -8,7 +8,7 @@ from model_loader import get_bundle
 # Load bundled manga data via shared loader (downloads from GitHub Releases if needed)
 bundle = get_bundle("manga")
 
-model = bundle['model']
+# Lightweight bundle does not include the original model object
 tfidf = bundle['tfidf']
 scaler = bundle['scaler']
 manga = bundle['manga']
