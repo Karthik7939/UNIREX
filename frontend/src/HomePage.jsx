@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import AnoAI from './components/ui/animated-shader-background';
 import RadialOrbitalTimeline from './components/ui/RadialOrbitalTimeline';
+import ClickSpark from './components/ui/ClickSpark';
 
 function HomePage() {
   const [tilt, setTilt] = React.useState({ x: 0, y: 0 });
@@ -25,7 +26,7 @@ function HomePage() {
   };
 
   return (
-    <>
+    <ClickSpark sparkColor="#a5f3fc" sparkCount={10} sparkRadius={18} sparkSize={12}>
       <Container
         fluid
         className="px-4 py-5 d-flex align-items-center justify-content-center home-hero-container"
@@ -35,7 +36,12 @@ function HomePage() {
           <div className="home-hero-grid">
             {/* Left: Text + CTAs */}
             <div className="home-hero-left">
-              <div className="home-badge">A Recommender System for Multi-Domain Entertainment</div>
+              <div className="home-badge">
+                <span className="home-badge-title">UNIREX</span>
+                <span className="home-badge-subtitle">
+                  A Recommender System for Multi-Domain Entertainment
+                </span>
+              </div>
 
               <h1 className="home-title">Find your next favorite story in seconds.</h1>
 
@@ -157,7 +163,7 @@ function HomePage() {
         </div>
       </div>
       </Container>
-    </>
+    </ClickSpark>
   );
 }
 
